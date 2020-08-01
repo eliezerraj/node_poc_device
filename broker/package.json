@@ -1,0 +1,20 @@
+{
+  "name": "broker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node ./main.js",
+    "test": "node index.test | tap-spec"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mosca": "^2.8.3",
+    "pino": "^6.4.1",
+    "pino-pretty": "^4.1.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.0.1"
+  }
+}

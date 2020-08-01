@@ -1,0 +1,2 @@
+require("dotenv-safe").config();
+require("./device/endpoint/endpoint.test").runTests();
