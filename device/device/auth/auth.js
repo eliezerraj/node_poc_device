@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const configAuth = require('../key/key.json');
 
 async function geraToken(username){
-	return jwt.sign({username}, configAuth.secret, { expiresIn: process.env.EXPIRESDIN } );
+	return jwt.sign({username}, configAuth.secret, { expiresIn: process.env.EXPIRES } );
 };
 
 function validaToken(req, res, next){

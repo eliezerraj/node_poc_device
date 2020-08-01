@@ -1,113 +1,81 @@
 const test = require('tape');
 const supertest = require('supertest');
-const app = require('../server/server');
-const server = require('../server/server');
+const app = require('../server/app');
 
 function runTests(){
-    
-    var metric = {"id" : 777,
-                "type" : "device ",
-                "event" : "metric ",
-                "temperature" : 4.0,
-                "humidity" : 78.0,
-                "lux" : 33.0,
-                "presence" : 11.0,
-                "moisture" : 55.0
-                };
-    var event = {
-        "id" : 777,
-        "type" : "device",
-        "event" : "watering",
-        "event_type" : "wt"
-    };
-    var id = 777;
-    var user = {"user" : "teste99","password": "pass01" };
-    var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlhdCI6MTU5NjIzMzQzNywiZXhwIjoxNTk2MjM2MDI5fQ.d6qZppLLQsPbLc-fh7eMo2-1p_uHJCgZnUj0Htopjrw";
 
-    test('POST /metric', function (t) {
-        supertest(app)
-        .post('/metric')
-        .set({ 'x-access-token': token, Accept: 'application/json' })
-        .send(metric)
-        .expect(201)
-        .end((err, res) =>{
-            console.log("-----> err : " , err);
-            if(err){
-                t.error(err, 'Erro na retorno da requisição');
-            }else{
-                t.assert(res.body, "Metricas consultadas com sucesso");
-            }
-            t.end();
-        });
-    });
+    var metric = {"id" : 999,"type" : "device ","event" : "metric ","temperature" : 4.0,"humidity" : 78.0,"lux" : 33.0,"presence" : 11.0,"moisture" : 55.0,"datecreated" : "2018-07-04T01:39:43.931Z" };
+    var event = {"id" : 999,"type" : "device","event" : "watering","event_type" : "wt","datecreated" : "2018-07-04T18:48:10.306Z" };
+    var id = 999;
+    var user = {"user" : "teste97","password": "pass01" };
+    var tokenLogin = {};
 
-    test('POST /event', function (t) {
-        supertest(app)
-        .post('/event')
-        .set({ 'x-access-token': token, Accept: 'application/json' })
-        .send(event)
-        .expect(201)
-        .end((err, res) =>{
-            console.log("-----> err : " , err);
-            if(err){
-                t.error(err, 'Erro na retorno da requisição');
-            }else{
-                t.assert(res.body, "Metricas consultadas com sucesso");
-            }
-            t.end();
+        test('POST /user', function (t) {
+            supertest(app)
+            .post('/user')
+            .send(user)
+            .expect(201)
+            .end((error, res) =>{
+                console.log("-----> error : " , error);
+                t.error(error, 'Sem erros')
+                t.assert(res.body, "Teste com sucesso")
+                t.end();
+            });
         });
-      });
-   
-    test('GET /metrics', function (t) {
-        supertest(app)
-        .get('/metrics/'+id)
-        .set({ 'x-access-token': token, Accept: 'application/json' })
-        .expect(200)
-        .end((err, res) =>{
-            console.log("-----> err : " , err);
-            if(err){
-                t.error(err, 'Erro na retorno da requisição');
-            }else{
-                t.assert(res.body, "Metricas consultadas com sucesso");
-            }
-            t.end();
-        });
-    });
 
-    test('POST /user', function (t) {
-        supertest(app)
-        .post('/user')
-        .send(user)
-        .expect(201)
-        .end((err, res) =>{
-            console.log("-----> err : " , err);
-            if(err){
-                t.error(err, 'Erro na retorno da requisição');
-            }else{
-                t.assert(res.body, "Metricas consultadas com sucesso");
-            }
-            t.end();
-        });
-      });
-
-      
-    test('POST /user', function (t) {
+    test('POST /login', function (t) {
         supertest(app)
         .post('/login')
         .send(user)
         .expect(200)
-        .end((err, res) =>{
-            console.log("-----> err : " , err);
-            if(err){
-                t.error(err, 'Erro na retorno da requisição');
-            }else{
-                t.assert(res.body, "Metricas consultadas com sucesso");
-            }
-            t.end();
+        .end((error, res) =>{
+                t.error(error, 'Sem erros');
+                t.assert(res.body, "Teste com sucesso");
+                tokenLogin = res.body.token;
+                t.end();
         });
-      });
+    });
+    
 
-      //app.server.end();
+        test('POST /metric', function (t) {
+            supertest(app)
+            .post('/metric')
+            .set({ 'x-access-token': tokenLogin, Accept: 'application/json' })
+            .send(metric)
+            .expect(201)
+            .end((error, res) =>{
+                t.error(error, 'Sem erros')
+                t.assert(res.body, "Teste com sucesso")
+                t.end();
+            });
+        });
+
+        test('POST /event', function (t) {
+            supertest(app)
+            .post('/event')
+            .set({ 'x-access-token': tokenLogin, Accept: 'application/json' })
+            .send(event)
+            .expect(201)
+            .end((error, res) =>{
+                t.error(error, 'Sem erros')
+                t.assert(res.body, "Teste com sucesso")
+                t.end();
+            });
+        });
+
+        test('GET /metrics', function (t) {
+            supertest(app)
+            .get('/metrics/'+id)
+            .set({ 'x-access-token': tokenLogin, Accept: 'application/json' })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end((error, res) =>{
+                t.error(error, 'Sem erros')
+                t.assert(res.body, "Teste com sucesso")
+                t.end();
+            });
+        });
+
 }
  
 module.exports = { runTests }

@@ -18,11 +18,11 @@ function runTests(){
 
             console.log('Postando metricas');
             var msg = "{ \"id\" : 44, \"type\" : \"device\", \"event\" : \"metric\", \"temperature\" : 4.0, \"humidity\" : 78.0, \"lux\" : 33.0, \"presence\" : 11.0 }";
-            t.assert( client.publish('device/postMetrics',msg) , "Mensagem enviada");
+            t.assert( client.publish('device/postMetrics',msg) , "Teste com sucesso");
 
             console.log('Postando eventos');
             var msg2 = "{ \"id\" : 44, \"type\" : \"device\", \"event\" : \"event_3\", \"event_type\" : \"type_event_3\" }";
-            t.assert( client.publish('device/postEvents',msg2) , "Mensagem enviada");
+            t.assert( client.publish('device/postEvents',msg2) , "Teste com sucesso");
 
             client.end();
             t.end();
