@@ -27,7 +27,6 @@ client.on('connect', function () {
 });
 
 client.on('message', function (topic, message) {
-	//console.log('Topic:  %s | Received message: %s', topic, message)
 	switch (topic) {
 		case 'device/postMetrics':
 			return postMetrics(message)

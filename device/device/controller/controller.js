@@ -3,12 +3,19 @@
 const repository = require('../repo/repository2');
 const logger = require('../database/logger');
 
+// Usada somente nos testes de circuit breaker
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function login(id , password){
+  //await sleep(12000);
   try {
     var result = await repository.login(id , password);
+    console.log(`loginOriginal 2:${result} `);
     return result;
   } catch (error) {
-    logger.error('Controller login: ${error}');
+    logger.error(`Controller login:${error}`);
     throw error;
   }
 }
@@ -27,7 +34,7 @@ async function postMetrics(metric){
     var result = await repository.postMetrics(metric);
     return result;
   } catch (error) {
-    logger.error('Controller postMetrics: ${error}');
+    logger.error(`Controller postMetrics:${error}`);
     throw error;
   }
 }

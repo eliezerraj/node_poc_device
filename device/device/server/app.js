@@ -15,6 +15,7 @@ extended: true
 }));
 app.use(morgan('tiny'));
 app.set('port', parseInt(process.env.PORT));
+
 endpoint(app ,controller);
 
 module.exports = app
