@@ -58,6 +58,7 @@
 	npm start
 
  <b>4) Testes </b>
+ 
 	Para componente há o seu respectivo arquivo de teste, esse arquivo tem a extensão .test
 
  <b>5) Monitoramento </b>
