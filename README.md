@@ -4,10 +4,10 @@
 
  <b>Indice </b>
 
-1)Tecnologia
-2)Esquematização
-3)Instalação
-4)Testes
+<ol>1)Tecnologia</ol>
+<ol>2)Esquematização</ol>
+<ol>3)Instalação</ol>
+<ol>4)Testes</ol>
 
  <b>1)Tecnologia </b>
 
@@ -58,7 +58,7 @@
 	npm start
 
  <b>4) Testes </b>
- 
+
 	Para componente há o seu respectivo arquivo de teste, esse arquivo tem a extensão .test
 
  <b>5) Monitoramento </b>
