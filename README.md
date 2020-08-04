@@ -18,6 +18,8 @@
 
  <b>2)Esquematização </b>
 
+![](hexa.gif)
+
 	A solução permite o envio dos dados de telemetria por até 2 interfaces HTTP, ou MQTT ou ambas.
 	No serviço device há 2 interface expostas HTTP (endpoint.js) MQTT (subscriber.js)
 	No caso do uso de MQQT é necessário subir o serviço broker (servidor mqtt) para a subscrição e publicação de mensagens.
