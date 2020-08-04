@@ -4,13 +4,13 @@ var summary = require('prom-client').Summary;
 var responseTime = require('response-time');  
 const logger = require('../database/logger');
 
-module.exports.numOfRequests = numOfRequests = new counter({  
+module.exports.totalRequest = numOfRequests = new counter({  
     name: 'device_numero_requests',
     help: 'Quantidade de requests',
     labelNames: ['method']
 });
 
-module.exports.pathsTaken = pathsTaken = new counter({  
+module.exports.pathsChamados = pathsTaken = new counter({  
     name: 'device_path_chamados',
     help: 'Path chamados do app',
     labelNames: ['path']
@@ -28,13 +28,13 @@ module.exports.eventsTotal = new counter({
     labelNames: ['device_post_eventos_sucesso']
   });
 
-module.exports.responses = responses = new summary({  
+module.exports.tempoResposta = responses = new summary({  
     name: 'device_tempo_resposta',
     help: 'Tempo de resposta (millis)',
     labelNames: ['method', 'path', 'status']
 });
 
-module.exports.startCollection = function () {  
+module.exports.initColeta = function () {  
     logger.info(`Iniciando a metricas do Prometheus`);
     require('prom-client').collectDefaultMetrics();
 };

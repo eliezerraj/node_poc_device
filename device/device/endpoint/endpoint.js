@@ -18,7 +18,7 @@ module.exports = (app, controller) => {
   app.use(Prometheus.requestCounters);  
   app.use(Prometheus.responseCounters);
   Prometheus.injectMetricsRoute(app);
-  Prometheus.startCollection();  
+  Prometheus.initColeta();  
 
   app.get('/', (req, res, next) => {
     res.status(200).send({success : true, message : "Micro Service DEVICE v 1.0"});
