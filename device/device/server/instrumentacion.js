@@ -1,25 +1,36 @@
 var register = require('prom-client').register;  
-var counter = require('prom-client').Counter;  
-//var Histogram = require('prom-client').Histogram;  
+var counter = require('prom-client').Counter;   
 var summary = require('prom-client').Summary;  
 var responseTime = require('response-time');  
 const logger = require('../database/logger');
 
 module.exports.numOfRequests = numOfRequests = new counter({  
     name: 'device_numero_requests',
-    help: 'Number of requests made',
+    help: 'Quantidade de requests',
     labelNames: ['method']
 });
 
 module.exports.pathsTaken = pathsTaken = new counter({  
     name: 'device_path_chamados',
-    help: 'Paths taken in the app',
+    help: 'Path chamados do app',
     labelNames: ['path']
 })
 
+module.exports.metricsTotal = new counter({
+    name: 'device_total_metricas_com_sucesso',
+    help: 'Total de metricas postadas com sucesso',
+    labelNames: ['device_post_metricas_sucesso']
+  });
+
+module.exports.eventsTotal = new counter({
+    name: 'device_total_eventos_com_sucesso',
+    help: 'Total de eventos postadas com sucesso',
+    labelNames: ['device_post_eventos_sucesso']
+  });
+
 module.exports.responses = responses = new summary({  
     name: 'device_tempo_resposta',
-    help: 'Response time in millis',
+    help: 'Tempo de resposta (millis)',
     labelNames: ['method', 'path', 'status']
 });
 
