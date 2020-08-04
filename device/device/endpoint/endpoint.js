@@ -7,7 +7,7 @@ const options = { usePrometheus: true,
   errorThesholdPercentage: 10,
   resetTimeout: 2000
 };
-
+/*
 const Prometheus = require('prom-client')
 const metricsInterval = Prometheus.collectDefaultMetrics()
 const httpRequestDurationMicroseconds = new Prometheus.Histogram({
@@ -17,14 +17,27 @@ const httpRequestDurationMicroseconds = new Prometheus.Histogram({
     buckets: [0.10, 5, 15, 50, 100, 200, 300, 400, 500]  // buckets for response time from 0.1ms to 500ms
 });
 const metricsTotal = new Prometheus.Counter({
-  name: 'metricas_total',
+  name: 'device_data_metric_total',
   help: 'Total de metricas postadas com sucesso',
-  labelNames: ['metricas_sucesso']
+  labelNames: ['device_post_metricas_sucesso']
 });
+const eventsTotal = new Prometheus.Counter({
+  name: 'device_data_event_total',
+  help: 'Total de eventos postadas com sucesso',
+  labelNames: ['device_post_eventos_sucesso']
+});*/
+
+
+const Prometheus = require('../server/instrumentacion');
 
 module.exports = (app, controller) => {
  
   const circuitLogin = new opossum(controller.login,options);
+
+  app.use(Prometheus.requestCounters);  
+  app.use(Prometheus.responseCounters);
+  Prometheus.injectMetricsRoute(app);
+  Prometheus.startCollection();  
 
   app.get('/', (req, res, next) => {
     res.status(200).send({success : true, message : "Micro Service DEVICE v 1.0"});
@@ -71,7 +84,7 @@ module.exports = (app, controller) => {
     await controller.postMetrics(req.body)
     .then(result => {
 
-      metricsTotal.inc({metricas_sucesso: result });
+      //metricsTotal.inc({device_post_metricas_sucesso: result });
       
       res.status(201).send({success : result});
     })
@@ -102,6 +115,9 @@ module.exports = (app, controller) => {
   app.post('/event', auth.validaToken, async (req, res, next) => {
     await controller.postEvents(req.body)
     .then(result => {
+
+      //eventsTotal.inc({device_post_eventos_sucesso: result });
+
       res.status(201).send({success : result});
     })
     .catch(error => {
@@ -109,7 +125,7 @@ module.exports = (app, controller) => {
     });
   });
 
-  app.get('/metrics/:id', auth.validaToken ,async (req, res, next) => {
+  app.get('/datametrics/:id', auth.validaToken ,async (req, res, next) => {
     await controller.getMetrics(req.params.id)
     .then(result => {
       res.status(200).send({data : result});
@@ -119,6 +135,7 @@ module.exports = (app, controller) => {
     });
   });
 
+/*
  app.use((req, res, next) => {
   res.locals.startEpoch = Date.now();
   next();
@@ -127,14 +144,14 @@ module.exports = (app, controller) => {
  app.use((req, res, next) => {
   const responseTimeInMs = Date.now() - res.locals.startEpoch
   httpRequestDurationMicroseconds
-      .labels(req.method, '' ,res.statusCode)
+      .labels(req.method, req.originalUrl ,res.statusCode)
       .observe(responseTimeInMs);
   next();
  });
 
- app.get('/prometheusmetrics', (req, res) => {
+ app.get('/metrics', (req, res) => {
   res.set('Content-Type', Prometheus.register.contentType);
   res.end(Prometheus.register.metrics());
  });
-
+*/
 }
