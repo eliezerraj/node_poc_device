@@ -1,22 +1,22 @@
 # node_poc_device
 
-Microserviço para registro de telemetria (IOT)
+<h1>Microserviço para registro de telemetria (IOT) </h1>
 
-Indice
+ <b>Indice </b>
 
 1)Tecnologia
 2)Esquematização
 3)Instalação
 4)Testes
 
-1)Tecnologia
+ <b>1)Tecnologia </b>
 
 	MongoDB para registro dos dados (métricas)
 	Express como interface para receber os dados via requições HTTP
 	Paho Mosca como interface(broker) para receber os dados via MQTT
 	Prometheus Monitorar requisições HTTP/Express
 
-2)Esquematização
+ <b>2)Esquematização </b>
 
 	A solução permite o envio dos dados de telemetria por até 2 interfaces HTTP, ou MQTT ou ambas.
 	No serviço device há 2 interface expostas HTTP (endpoint.js) MQTT (subscriber.js)
@@ -24,7 +24,7 @@ Indice
 	A autenticação é através de credenciais (user/password). A autenticação via HTTP retornará um token (jwt) que deverá ser utilizado nos post dos dados. 
 	Quando o canal for MQQT, as credencias serão enviadas para broker que fará a autenticação e estabelecerá a conexão.
 
-3) Instalação
+ <b>3) Instalação </b>
 
 	3.1) Clonar o respositorio
 	$ git clone git@github.com:eliezerraj/node_poc_device
@@ -57,16 +57,16 @@ Indice
 	broker (Broker MQTT)
 	npm start
 
-4) Testes
+ <b>4) Testes </b>
 	Para componente há o seu respectivo arquivo de teste, esse arquivo tem a extensão .test
 
-5) Monitoramento
+ <b>5) Monitoramento </b>
 
 	Caso queira usar o monitaramento, deve-se incluir no promentheus um novo job (exemplo abaixo)
 
-   - job_name: 'micro_node_device'
-    scrape_interval: 10s
-    static_configs:
-      - targets: ['127.0.0.0:4000']
-        labels:
-          group: 'grp_evice_node_sofia'
+	- job_name: 'micro_node_device'
+	scrape_interval: 10s
+	static_configs:
+		- targets: ['127.0.0.0:4000']
+			labels:
+			group: 'grp_evice_node_sofia'
